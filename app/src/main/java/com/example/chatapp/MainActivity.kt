@@ -27,6 +27,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        auth=FirebaseAuth.getInstance()
     }
 
     fun goSingUp(view: View){
@@ -46,5 +48,28 @@ class MainActivity : AppCompatActivity() {
         }
 
         editTextPassword.setSelection(editTextPassword.text.length)
+    }
+
+    fun userLogin(view: View){
+        val userEmail=findViewById<EditText>(R.id.editTextUserMail).text.toString()
+        val userPassword=findViewById<EditText>(R.id.editTextUserPassword).text.toString()
+
+        if(userEmail.isNullOrEmpty() || userPassword.isNullOrEmpty()){
+            Toast.makeText(this,"Lütfen tüm alanları doldurunuz!",Toast.LENGTH_SHORT).show()
+        }
+        else{
+            auth.signInWithEmailAndPassword(userEmail,userPassword)
+                .addOnCompleteListener(this){
+                    if (it.isSuccessful){
+                        Toast.makeText(this,"Giriş Başarılı!",Toast.LENGTH_SHORT).show()
+                    }
+                    else{
+                        Toast.makeText(this,"Hatalı giriş bilgileri!",Toast.LENGTH_SHORT).show()
+                        findViewById<EditText>(R.id.editTextUserPassword).setText("")
+                    }
+                }
+        }
+
+
     }
 }
