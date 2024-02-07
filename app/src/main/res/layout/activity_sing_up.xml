@@ -50,7 +50,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/buttonSave"
+        android:id="@+id/buttonAddFriends"
         android:layout_width="324dp"
         android:layout_height="55dp"
         android:layout_marginBottom="16dp"
@@ -120,7 +120,7 @@
         android:hint="Confirm Password"
         android:inputType="text"
         android:paddingLeft="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonSave"
+        app:layout_constraintBottom_toTopOf="@+id/buttonAddFriends"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent" />

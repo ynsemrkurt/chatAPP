@@ -51,17 +51,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun userLogin(view: View){
-        val userEmail=findViewById<EditText>(R.id.editTextUserMail).text.toString()
-        val userPassword=findViewById<EditText>(R.id.editTextUserPassword).text.toString()
+        val userEmail=findViewById<EditText>(R.id.editTextUserMail)
+        val userPassword=findViewById<EditText>(R.id.editTextUserPassword)
 
-        if(userEmail.isNullOrEmpty() || userPassword.isNullOrEmpty()){
+        if(userEmail.text.toString().isNullOrEmpty() || userPassword.text.toString().isNullOrEmpty()){
             Toast.makeText(this,"Lütfen tüm alanları doldurunuz!",Toast.LENGTH_SHORT).show()
         }
         else{
-            auth.signInWithEmailAndPassword(userEmail,userPassword)
+            auth.signInWithEmailAndPassword(userEmail.text.toString(),userPassword.text.toString())
                 .addOnCompleteListener(this){
                     if (it.isSuccessful){
-                        Toast.makeText(this,"Giriş Başarılı!",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this,"Giriş başarılı!",Toast.LENGTH_SHORT).show()
+                        userEmail.setText("")
+                        userPassword.setText("")
+                        val intent=Intent(this,HomeActivity::class.java)
+                        startActivity(intent)
                     }
                     else{
                         Toast.makeText(this,"Hatalı giriş bilgileri!",Toast.LENGTH_SHORT).show()

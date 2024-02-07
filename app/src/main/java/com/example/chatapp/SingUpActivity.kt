@@ -57,7 +57,7 @@ class SingUpActivity : AppCompatActivity() {
                 return
             }
 
-            if (userEmail.isNullOrEmpty() ){
+            if (userEmail.isNullOrEmpty() || !controlEmail(userEmail)){
                 showToast("Lütfen geçerli bir e-posta giriniz.")
                 return
             }
@@ -76,8 +76,12 @@ class SingUpActivity : AppCompatActivity() {
 
                         databaseReference.setValue(hashMap).addOnCompleteListener(this){
                             if (it.isSuccessful){
+                                showToast("Kayıt başarılı!")
                                 val intent=Intent(this,MainActivity::class.java)
                                 startActivity(intent)
+                            }
+                            else{
+                                showToast("Kayıt başarısız lütfen bilgileri kontrol ediniz!")
                             }
                         }
                     }
@@ -92,9 +96,5 @@ class SingUpActivity : AppCompatActivity() {
         private fun showToast(message: String) {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
-
     }
-
-
-
 data class User(val userName: String, val userMail: String, val userPassword: String)
