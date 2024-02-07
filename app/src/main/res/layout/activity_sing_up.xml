@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/peakpx"
+    tools:context=".SingUpActivity">
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="413dp"
+        android:layout_height="474dp"
+        android:layout_marginBottom="-50dp"
+        android:background="@drawable/view_desing"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="322dp"
+        android:layout_height="92dp"
+        android:fontFamily="@font/montserrat_alternates_bold"
+        android:text="Chat APP"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="60sp"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.483"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.782" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="271dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="-25dp"
+        android:fontFamily="@font/montserrat_alternates_bold"
+        android:text="Join Us !"
+        android:textAlignment="center"
+        android:textColor="#9CA39292"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonSave"
+        android:layout_width="324dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/button_background"
+        android:onClick="userSave"
+        android:text="Kayıt Ol"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextUserName"
+        android:layout_width="324dp"
+        android:layout_height="58dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/view_edit"
+        android:ems="10"
+        android:hint="Full Name"
+        android:inputType="text"
+        android:paddingLeft="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/editTextUserMail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <EditText
+        android:id="@+id/editTextUserMail"
+        android:layout_width="324dp"
+        android:layout_height="58dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/view_edit"
+        android:ems="10"
+        android:hint="example@gmail.com"
+        android:inputType="text"
+        android:paddingLeft="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/editTextUserPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextUserPassword"
+        android:layout_width="324dp"
+        android:layout_height="58dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/view_edit"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="text"
+        android:paddingLeft="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/editTextUserPasswordConfirm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextUserPasswordConfirm"
+        android:layout_width="324dp"
+        android:layout_height="58dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/view_edit"
+        android:ems="10"
+        android:hint="Confirm Password"
+        android:inputType="text"
+        android:paddingLeft="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonSave"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="257dp"
+        android:layout_height="206dp"
+        android:layout_marginBottom="112dp"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.821"
+        app:srcCompat="@drawable/logo" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

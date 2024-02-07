@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/peakpx"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="271dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="-25dp"
+        android:fontFamily="@font/montserrat_alternates_bold"
+        android:text="Join Us !"
+        android:textAlignment="center"
+        android:textColor="#9CA39292"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="257dp"
+        android:layout_height="206dp"
+        android:layout_marginBottom="112dp"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.397"
+        app:srcCompat="@drawable/logo" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="411dp"
+        android:layout_height="420dp"
+        android:layout_marginBottom="-100dp"
+        android:background="@drawable/view_desing"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.975" />
+
+    <EditText
+        android:id="@+id/editTextUserMail"
+        android:layout_width="324dp"
+        android:layout_height="58dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/view_edit"
+        android:ems="10"
+        android:hint="example@gmail.com"
+        android:inputType="text"
+        android:paddingLeft="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/editTextUserPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.482"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view"
+        app:layout_constraintVertical_bias="0.896" />
+
+    <EditText
+        android:id="@+id/editTextUserPassword"
+        android:layout_width="324dp"
+        android:layout_height="58dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/view_edit"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:paddingLeft="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonLogin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonLogin"
+        android:layout_width="318dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/button_background"
+        android:onClick="userLogin"
+        android:text="Giriş Yap"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/buttonSave"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonSave"
+        android:layout_width="318dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/button_background"
+        android:onClick="goSingUp"
+        android:text="Kayıt Ol"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/hiddenButton"
+        android:layout_width="52dp"
+        android:layout_height="31dp"
+        android:background="#00FFFFFF"
+        android:onClick="hiddenPassword"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextUserPassword"
+        app:layout_constraintEnd_toEndOf="@+id/editTextUserPassword"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/editTextUserPassword"
+        app:layout_constraintTop_toTopOf="@+id/editTextUserPassword"
+        app:srcCompat="@drawable/hidden" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="322dp"
+        android:layout_height="92dp"
+        android:fontFamily="@font/montserrat_alternates_bold"
+        android:text="Chat APP"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="60sp"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.761" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
