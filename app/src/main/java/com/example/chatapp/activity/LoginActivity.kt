@@ -1,25 +1,18 @@
-package com.example.chatapp
+package com.example.chatapp.activity
 
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
-import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.Firebase
+import com.example.chatapp.R
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.database
 
 
-
-class MainActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
@@ -32,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun goSingUp(view: View){
-        val intent=Intent(this,SingUpActivity::class.java)
+        val intent=Intent(this, SingUpActivity::class.java)
         startActivity(intent)
     }
 
@@ -64,7 +57,7 @@ class MainActivity : AppCompatActivity() {
                         Toast.makeText(this,"Giriş başarılı!",Toast.LENGTH_SHORT).show()
                         userEmail.setText("")
                         userPassword.setText("")
-                        val intent=Intent(this,HomeActivity::class.java)
+                        val intent=Intent(this, UsersActivity::class.java)
                         startActivity(intent)
                     }
                     else{
