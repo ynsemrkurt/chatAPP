@@ -1,13 +1,16 @@
 package com.example.chatapp.adapter
 
+import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.chatapp.R
+import com.example.chatapp.activity.ChatActivity
 import com.example.chatapp.model.User
 import com.google.firebase.database.core.Context
 import de.hdodenhof.circleimageview.CircleImageView
@@ -30,12 +33,19 @@ class UserAdapter(private val context: android.content.Context,private val userL
         val user=userList[position]
         holder.textUserName.text=user.userName
         Glide.with(context).load(Uri.parse(user.pimage)).placeholder(R.drawable.profile_image).into(holder.userImage)
+
+        holder.userLayout.setOnClickListener{
+            val intent=Intent(context,ChatActivity::class.java)
+            intent.putExtra("userId",user.userId)
+            context.startActivity(intent)
+        }
     }
 
     class ViewHolder(view:View): RecyclerView.ViewHolder(view){
         val textUserName:TextView=view.findViewById(R.id.userName)
         val userImage:CircleImageView=view.findViewById(R.id.userProfileImage)
         val textMessage:TextView=view.findViewById(R.id.userMessage)
+        val userLayout:LinearLayout=view.findViewById(R.id.userLayout)
     }
 }
 
