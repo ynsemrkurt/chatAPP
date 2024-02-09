@@ -1,5 +1,6 @@
 package com.example.chatapp.adapter
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +29,7 @@ class UserAdapter(private val context: android.content.Context,private val userL
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user=userList[position]
         holder.textUserName.text=user.userName
-        Glide.with(context).load(user.pimage).placeholder(R.drawable.profile_image).into(holder.userImage)
+        Glide.with(context).load(Uri.parse(user.pimage)).into(holder.userImage)
     }
 
     class ViewHolder(view:View): RecyclerView.ViewHolder(view){

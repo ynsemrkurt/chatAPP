@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/peakpx"
+    android:orientation="vertical"
+    tools:context=".activity.ProfileActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="66dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:src="@drawable/logo" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="49dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/montserrat_alternates_bold"
+            android:text="Chat APP"
+            android:textAlignment="center"
+            android:textColor="#1E1E1E"
+            android:textSize="25dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </LinearLayout>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imageProfile"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/profile_image"
+            app:civ_border_color="@color/white"
+            app:civ_border_width="3sp" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="-25dp"
+        android:layout_gravity="center"
+        app:cardCornerRadius="100000dp"
+        android:id="@+id/buttonChangeProfileİmage">
+
+        <ImageButton
+            android:id="@+id/changeImage"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:background="@color/white"
+            android:onClick="openImageFolder"
+            android:scaleType="fitCenter"
+            android:src="@drawable/pen" />
+
+    </androidx.cardview.widget.CardView>
+
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:textAlignment="center"
+            android:text="NAME"
+            android:textColor="#9F000000" />
+
+        <EditText
+            android:id="@+id/editTextUserName"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/profile_edit_desing"
+            android:layout_gravity="center"
+            android:paddingStart="15dp"
+            android:text="Your Name"
+            android:textColor="#AE000000"
+            android:textSize="17dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonSave"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/button_background"
+            android:onClick="uploadData"
+            android:text="SAVE"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

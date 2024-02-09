@@ -1,9 +1,9 @@
 package com.example.chatapp.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.LinearLayout
+import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,7 +26,7 @@ class UsersActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_users)
 
-        userRecyclerView=findViewById(R.id.userRcyclerView)
+        userRecyclerView=findViewById(R.id.userRecyclerView)
         userRecyclerView.layoutManager=LinearLayoutManager(this, RecyclerView.VERTICAL ,false)
 
         var userList=ArrayList<User>()
@@ -53,5 +53,9 @@ class UsersActivity : AppCompatActivity() {
 
         })
 
+    }
+    fun openProfile(view: View){
+        val intent=Intent(this,ProfileActivity::class.java)
+        startActivity(intent)
     }
 }

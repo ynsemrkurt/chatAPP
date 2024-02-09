@@ -9,19 +9,26 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chatapp.R
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
+import com.google.firebase.auth.FirebaseUser
 
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
-    private lateinit var databaseReference: DatabaseReference
+    private lateinit var firebaseUser: FirebaseUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_login)
 
         auth=FirebaseAuth.getInstance()
+        auth.addAuthStateListener { firebaseAuth ->
+            if (firebaseAuth.currentUser != null) {
+                val intent = Intent(this, UsersActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
     }
 
     fun goSingUp(view: View){
@@ -48,20 +55,21 @@ class LoginActivity : AppCompatActivity() {
         val userPassword=findViewById<EditText>(R.id.editTextUserPassword)
 
         if(userEmail.text.toString().isNullOrEmpty() || userPassword.text.toString().isNullOrEmpty()){
-            Toast.makeText(this,"Lütfen tüm alanları doldurunuz!",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"Please fill in all fields!",Toast.LENGTH_SHORT).show()
         }
         else{
             auth.signInWithEmailAndPassword(userEmail.text.toString(),userPassword.text.toString())
                 .addOnCompleteListener(this){
                     if (it.isSuccessful){
-                        Toast.makeText(this,"Giriş başarılı!",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this,"The entry is successful!",Toast.LENGTH_SHORT).show()
                         userEmail.setText("")
                         userPassword.setText("")
                         val intent=Intent(this, UsersActivity::class.java)
                         startActivity(intent)
+                        finish()
                     }
                     else{
-                        Toast.makeText(this,"Hatalı giriş bilgileri!",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this,"Incorrect login information!",Toast.LENGTH_SHORT).show()
                         findViewById<EditText>(R.id.editTextUserPassword).setText("")
                     }
                 }

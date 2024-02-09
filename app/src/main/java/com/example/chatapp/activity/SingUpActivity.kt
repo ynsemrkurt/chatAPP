@@ -38,23 +38,23 @@ class SingUpActivity : AppCompatActivity() {
             val confirmPassword = findViewById<EditText>(R.id.editTextUserPasswordConfirm).text.toString()
 
             if (userName.isNullOrEmpty()){
-                Toast.makeText(applicationContext,"Lütfen Adınızı Giriniz",Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext,"Please enter your name!",Toast.LENGTH_SHORT).show()
                 return
             }
 
             if (userPassword.length<6){
-                showToast("Şifre 6 haneden kısa olmamalı.")
+                showToast("The password should not be shorter than 6 digits!")
                 return
             }
 
             if(userPassword!=confirmPassword){
-                showToast("Kayıt başarısız. Şifreler uyuşmuyor.")
+                showToast("Registration is unsuccessful. The passwords don't match!")
                 findViewById<EditText>(R.id.editTextUserPasswordConfirm).setText("")
                 return
             }
 
             if (userEmail.isNullOrEmpty() || !controlEmail(userEmail)){
-                showToast("Lütfen geçerli bir e-posta giriniz.")
+                showToast("Please enter a valid e-mail!")
                 return
             }
 
@@ -63,6 +63,7 @@ class SingUpActivity : AppCompatActivity() {
                     if (it.isSuccessful){
                         val user: FirebaseUser? =auth.currentUser
                         val userId:String=user!!.uid
+
                         databaseReference=FirebaseDatabase.getInstance().getReference("users").child(userId)
 
                         val hashMap:HashMap<String,String> = HashMap()
@@ -72,12 +73,13 @@ class SingUpActivity : AppCompatActivity() {
 
                         databaseReference.setValue(hashMap).addOnCompleteListener(this){
                             if (it.isSuccessful){
-                                showToast("Kayıt başarılı!")
-                                val intent=Intent(this, LoginActivity::class.java)
+                                showToast("Registration is successful!")
+                                val intent=Intent(this, UsersActivity::class.java)
                                 startActivity(intent)
+                                finish()
                             }
                             else{
-                                showToast("Kayıt başarısız lütfen bilgileri kontrol ediniz!")
+                                showToast("Registration failed, please check the information!")
                             }
                         }
                     }

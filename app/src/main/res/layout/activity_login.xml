@@ -41,10 +41,9 @@
         android:background="@drawable/view_desing"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.975" />
+        app:layout_constraintVertical_bias="0.97" />
 
     <EditText
         android:id="@+id/editTextUserMail"
@@ -85,7 +84,7 @@
         android:layout_marginBottom="24dp"
         android:background="@drawable/button_background"
         android:onClick="userLogin"
-        android:text="Giriş Yap"
+        android:text="LOGIN"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/buttonAddFriends"
         app:layout_constraintEnd_toEndOf="parent"
@@ -99,7 +98,7 @@
         android:layout_marginBottom="24dp"
         android:background="@drawable/button_background"
         android:onClick="goSingUp"
-        android:text="Kayıt Ol"
+        android:text="SING UP"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

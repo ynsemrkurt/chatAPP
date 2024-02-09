@@ -8,11 +8,40 @@
     android:orientation="vertical"
     tools:context=".activity.UsersActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="79dp"
+        android:layout_gravity="center"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="291dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="Messages"
+            android:textSize="40sp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonProfile"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/button_background"
+            android:onClick="openProfile"
+            android:text="@string/my_profile"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/userRcyclerView"
+        android:id="@+id/userRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white" />
-
 
 </LinearLayout>

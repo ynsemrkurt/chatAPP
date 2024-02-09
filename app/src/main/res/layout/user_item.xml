@@ -17,9 +17,9 @@
             android:id="@+id/userProfileImage"
             android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
-            app:civ_border_width="2dp"
+            app:civ_border_width="0.5dp"
             app:civ_border_color="@color/black"
-            android:src="@drawable/logo"
+            android:src="@drawable/profile_image"
             android:layout_gravity="center"/>
 
         <LinearLayout
@@ -40,7 +40,7 @@
                 android:id="@+id/userMessage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Emre"
+                android:text="..."
                 android:maxLines="1"
                 android:textSize="15sp"
                 android:textColor="#686868"/>
