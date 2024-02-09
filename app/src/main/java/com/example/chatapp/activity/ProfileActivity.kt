@@ -45,6 +45,8 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var storage:FirebaseStorage
     private lateinit var strgRef:StorageReference
 
+    private var imageUrl:String=""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
@@ -61,14 +63,15 @@ class ProfileActivity : AppCompatActivity() {
                 if (user?.userId == firebaseUser.uid) {
                     if (user.pimage.isEmpty()) {
                         findViewById<CircleImageView>(R.id.imageProfile).setImageResource(R.drawable.profile_image)
-                    } else {
+                    }
+                    else {
                         try {
                             val imageUri = Uri.parse(user.pimage)
                             Glide.with(this@ProfileActivity).load(imageUri).placeholder(R.drawable.profile_image)
                                 .into(findViewById<CircleImageView>(R.id.imageProfile))
+                            imageUrl=user.pimage
                         } catch (e: Exception) {
-                            e.printStackTrace()
-                            showToast("Geçersiz uri")
+                            findViewById<CircleImageView>(R.id.imageProfile).setImageResource(R.drawable.login_image)
                         }
                     }
                     findViewById<EditText>(R.id.editTextUserName).setText(user.userName)
@@ -108,6 +111,9 @@ class ProfileActivity : AppCompatActivity() {
                         .addOnFailureListener{
                             showToast("Failed, please try again!")
                         }
+                        ref.downloadUrl.addOnSuccessListener { uri ->
+                            imageUrl=uri.toString()
+                        }
                 }
             } catch (e: IOException) {
                 e.printStackTrace()
@@ -116,24 +122,27 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     fun uploadData(view: View){
-        val user: FirebaseUser? =FirebaseAuth.getInstance().currentUser
-        val userId:String=user!!.uid
+        if (!findViewById<EditText>(R.id.editTextUserName).text.toString().isNullOrEmpty()){
+            val user: FirebaseUser? =FirebaseAuth.getInstance().currentUser
+            val userId:String=user!!.uid
 
-        databaseReference=FirebaseDatabase.getInstance().getReference("users").child(userId)
+            databaseReference=FirebaseDatabase.getInstance().getReference("users").child(userId)
 
-        val hashMap:HashMap<String,String> = HashMap()
-        hashMap.put("userId",userId)
-        hashMap.put("userName",findViewById<EditText>(R.id.editTextUserName).text.toString())
-        if (filePath!=null){
-            hashMap.put("pimage",filePath.toString())
+            val hashMap:HashMap<String,String> = HashMap()
+            hashMap.put("userId",userId)
+            hashMap.put("userName",findViewById<EditText>(R.id.editTextUserName).text.toString())
+            hashMap.put("pimage",imageUrl)
+            databaseReference.setValue(hashMap).addOnCompleteListener(this){
+                if (it.isSuccessful){
+                    showToast("Registration Is Successful!")
+                }
+                else{
+                    showToast("Registration failed, please check the information!")
+                }
+            }
         }
-        databaseReference.setValue(hashMap).addOnCompleteListener(this){
-            if (it.isSuccessful){
-                showToast("Registration Is Successful!")
-            }
-            else{
-                showToast("Registration failed, please check the information!")
-            }
+        else{
+            showToast("User name cannot be empty!")
         }
     }
 
