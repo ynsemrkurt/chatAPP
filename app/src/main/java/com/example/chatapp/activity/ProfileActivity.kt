@@ -13,6 +13,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.Glide
 import com.example.chatapp.R
 import com.example.chatapp.model.User
@@ -31,6 +32,7 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.storage
 import de.hdodenhof.circleimageview.CircleImageView
+import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.util.UUID
 
@@ -99,22 +101,25 @@ class ProfileActivity : AppCompatActivity() {
         if (requestCode == request && resultCode == RESULT_OK && data != null && data.data != null) {
             filePath = data.data
             try {
-                val bitmap: Bitmap = MediaStore.Images.Media.getBitmap(contentResolver, filePath)
-                findViewById<CircleImageView>(R.id.imageProfile).setImageBitmap(bitmap)
-                if (filePath!=null){
-                    showToast("Please wait, image is loading!")
-                    val ref:StorageReference=strgRef.child("image/"+firebaseUser.uid)
-                    ref.putFile(filePath!!)
-                        .addOnSuccessListener {
-                            showToast("Uploaded image!")
-                        }
-                        .addOnFailureListener{
-                            showToast("Failed, please try again!")
-                        }
-                        ref.downloadUrl.addOnSuccessListener { uri ->
-                            imageUrl=uri.toString()
-                        }
+                showToast("Image is uploading...")
+
+                val originalBitmap: Bitmap = MediaStore.Images.Media.getBitmap(contentResolver, filePath)
+                val imageStream=ByteArrayOutputStream()
+                originalBitmap.compress(Bitmap.CompressFormat.JPEG,18,imageStream)
+                val imageArray=imageStream.toByteArray()
+
+                val ref: StorageReference = strgRef.child("image/" + firebaseUser.uid)
+                ref.putBytes(imageArray)
+                    .addOnSuccessListener {
+                        showToast("Uploaded image!")
+                    }
+                    .addOnFailureListener {
+                        showToast("Failed, please try again!")
+                    }
+                ref.downloadUrl.addOnSuccessListener { uri ->
+                    imageUrl = uri.toString()
                 }
+                findViewById<CircleImageView>(R.id.imageProfile).setImageBitmap(originalBitmap)
             } catch (e: IOException) {
                 e.printStackTrace()
             }
@@ -122,26 +127,24 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     fun uploadData(view: View){
-        if (!findViewById<EditText>(R.id.editTextUserName).text.toString().isNullOrEmpty()){
-            val user: FirebaseUser? =FirebaseAuth.getInstance().currentUser
-            val userId:String=user!!.uid
+        if (findViewById<EditText>(R.id.editTextUserName).text.toString().isNotEmpty()) {
+            val user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
+            val userId: String = user!!.uid
 
-            databaseReference=FirebaseDatabase.getInstance().getReference("users").child(userId)
+            databaseReference = FirebaseDatabase.getInstance().getReference("users").child(userId)
 
-            val hashMap:HashMap<String,String> = HashMap()
-            hashMap.put("userId",userId)
-            hashMap.put("userName",findViewById<EditText>(R.id.editTextUserName).text.toString())
-            hashMap.put("pimage",imageUrl)
-            databaseReference.setValue(hashMap).addOnCompleteListener(this){
-                if (it.isSuccessful){
+            val hashMap: HashMap<String, String> = HashMap()
+            hashMap["userId"] = userId
+            hashMap["userName"] = findViewById<EditText>(R.id.editTextUserName).text.toString()
+            hashMap["pimage"] = imageUrl
+            databaseReference.setValue(hashMap).addOnCompleteListener(this) {
+                if (it.isSuccessful) {
                     showToast("Registration Is Successful!")
-                }
-                else{
+                } else {
                     showToast("Registration failed, please check the information!")
                 }
             }
-        }
-        else{
+        } else {
             showToast("User name cannot be empty!")
         }
     }
@@ -149,5 +152,26 @@ class ProfileActivity : AppCompatActivity() {
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
+
+    fun userLogout(view: View){
+        val alertDialogBuilder=AlertDialog.Builder(this)
+        alertDialogBuilder.setTitle("Logout")
+        alertDialogBuilder.setMessage("Are you sure you want to logout?")
+        alertDialogBuilder.setPositiveButton("Logout"){_,_->
+            val auth = FirebaseAuth.getInstance()
+            auth.signOut()
+            val intent=Intent(this,LoginActivity::class.java)
+            startActivity(intent)
+            showToast("Has been logged out.")
+        }
+        alertDialogBuilder.setNegativeButton("Cancel"){_,_->
+
+        }
+
+        val alertDialog=alertDialogBuilder.create()
+        alertDialog.show()
+
+    }
+
 }
 

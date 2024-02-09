@@ -8,12 +8,12 @@
     tools:context=".activity.LoginActivity">
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/textView4"
         android:layout_width="271dp"
         android:layout_height="44dp"
         android:layout_marginTop="-25dp"
         android:fontFamily="@font/montserrat_alternates_bold"
-        android:text="Join Us !"
+        android:text="@string/join_us"
         android:textAlignment="center"
         android:textColor="#9CA39292"
         android:textSize="30sp"
@@ -31,14 +31,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.397"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/logo"
+        android:contentDescription="@string/app_name" />
 
     <View
         android:id="@+id/view"
-        android:layout_width="411dp"
+        android:layout_width="match_parent"
         android:layout_height="420dp"
         android:layout_marginBottom="-100dp"
-        android:background="@drawable/view_desing"
+        android:background="@drawable/view_design"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,15 +53,16 @@
         android:layout_marginBottom="16dp"
         android:background="@drawable/view_edit"
         android:ems="10"
-        android:hint="example@gmail.com"
-        android:inputType="text"
-        android:paddingLeft="20dp"
+        android:hint="@string/example_gmail_com"
+        android:inputType="textEmailAddress"
+        android:paddingStart="20dp"
         app:layout_constraintBottom_toTopOf="@+id/editTextUserPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/view"
-        app:layout_constraintVertical_bias="0.896" />
+        app:layout_constraintVertical_bias="0.896"
+        android:importantForAutofill="no" />
 
     <EditText
         android:id="@+id/editTextUserPassword"
@@ -69,13 +71,14 @@
         android:layout_marginBottom="12dp"
         android:background="@drawable/view_edit"
         android:ems="10"
-        android:hint="Password"
+        android:hint="@string/password"
         android:inputType="textPassword"
-        android:paddingLeft="20dp"
+        android:paddingStart="20dp"
         app:layout_constraintBottom_toTopOf="@+id/buttonLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:importantForAutofill="no" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonLogin"
@@ -84,7 +87,7 @@
         android:layout_marginBottom="24dp"
         android:background="@drawable/button_background"
         android:onClick="userLogin"
-        android:text="LOGIN"
+        android:text="@string/login"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/buttonAddFriends"
         app:layout_constraintEnd_toEndOf="parent"
@@ -98,7 +101,7 @@
         android:layout_marginBottom="24dp"
         android:background="@drawable/button_background"
         android:onClick="goSingUp"
-        android:text="SING UP"
+        android:text="@string/sing_up"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -117,14 +120,15 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/editTextUserPassword"
         app:layout_constraintTop_toTopOf="@+id/editTextUserPassword"
-        app:srcCompat="@drawable/hidden" />
+        app:srcCompat="@drawable/hidden"
+        android:contentDescription="@string/hidden_password" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="322dp"
         android:layout_height="92dp"
         android:fontFamily="@font/montserrat_alternates_bold"
-        android:text="Chat APP"
+        android:text="@string/chat_app"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="60sp"
