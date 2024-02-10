@@ -2,7 +2,9 @@ package com.example.chatapp.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.example.chatapp.R
@@ -19,17 +21,17 @@ import com.google.firebase.database.getValue
 import de.hdodenhof.circleimageview.CircleImageView
 
 class ChatActivity : AppCompatActivity() {
-    var firebaseUser: FirebaseUser? = null
+    var firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     var reference: DatabaseReference? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
         var intent = getIntent()
-        var friendUserId = intent.getStringExtra("userId").toString()
 
-        firebaseUser = FirebaseAuth.getInstance().currentUser
+        var friendUserId = intent.getStringExtra("userId").toString()
         reference = FirebaseDatabase.getInstance().getReference("users").child(friendUserId)
 
         reference!!.addValueEventListener(object : ValueEventListener {
@@ -49,5 +51,20 @@ class ChatActivity : AppCompatActivity() {
             }
 
         })
+
+        findViewById<ImageButton>(R.id.buttonSend).setOnClickListener{
+            if (findViewById<EditText>(R.id.textMessage).text.isNotEmpty()){
+                reference = FirebaseDatabase.getInstance().getReference().child("Chat")
+
+                var hashMap: HashMap<String, String> = HashMap()
+                hashMap["senderId"] = firebaseUser!!.uid
+                hashMap["recipientId"] = friendUserId
+                hashMap["message"] = findViewById<EditText>(R.id.textMessage).text.toString()
+
+                reference!!.push().setValue(hashMap)
+
+                findViewById<EditText>(R.id.textMessage).setText("")
+            }
+        }
     }
 }
