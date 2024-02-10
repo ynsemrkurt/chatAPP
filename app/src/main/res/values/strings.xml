@@ -17,4 +17,6 @@
     <string name="full_name">Full Name</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="messages">MESSAGES</string>
+    <string name="messagemin">Message</string>
+    <string name="send_message">Send Message</string>
 </resources>
