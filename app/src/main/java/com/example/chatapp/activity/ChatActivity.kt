@@ -6,8 +6,12 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.chatapp.R
+import com.example.chatapp.adapter.MessageAdapter
+import com.example.chatapp.model.Chat
 import com.example.chatapp.model.User
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -23,11 +27,16 @@ import de.hdodenhof.circleimageview.CircleImageView
 class ChatActivity : AppCompatActivity() {
     var firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     var reference: DatabaseReference? = null
-
+    var chatList = ArrayList<Chat>()
+    private lateinit var recyclerViewMessages: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
+
+        recyclerViewMessages = findViewById(R.id.recyclerViewMessages)
+        recyclerViewMessages.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+
 
         var intent = getIntent()
 
@@ -52,8 +61,8 @@ class ChatActivity : AppCompatActivity() {
 
         })
 
-        findViewById<ImageButton>(R.id.buttonSend).setOnClickListener{
-            if (findViewById<EditText>(R.id.textMessage).text.isNotEmpty()){
+                findViewById < ImageButton >(R.id.buttonSend).setOnClickListener {
+            if (findViewById<EditText>(R.id.textMessage).text.isNotEmpty()) {
                 reference = FirebaseDatabase.getInstance().getReference().child("Chat")
 
                 var hashMap: HashMap<String, String> = HashMap()
@@ -66,5 +75,31 @@ class ChatActivity : AppCompatActivity() {
                 findViewById<EditText>(R.id.textMessage).setText("")
             }
         }
+
+        messageList(friendUserId)
+    }
+
+    fun messageList(friendId:String){
+        chatList.clear()
+        val databaseReference: DatabaseReference =
+            FirebaseDatabase.getInstance().getReference("Chat")
+        databaseReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                chatList.clear()
+                for (dataSnapShot: DataSnapshot in snapshot.children) {
+                    val chat = dataSnapShot.getValue(Chat::class.java)
+                    if (chat!!.senderId == firebaseUser!!.uid && chat.recipientId == friendId ||
+                        chat.senderId == friendId && chat.recipientId == firebaseUser!!.uid) {
+
+                        chatList.add(chat)
+                    }
+                }
+                val chatAdapter=MessageAdapter(this@ChatActivity,chatList)
+                recyclerViewMessages.adapter=chatAdapter
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
     }
 }

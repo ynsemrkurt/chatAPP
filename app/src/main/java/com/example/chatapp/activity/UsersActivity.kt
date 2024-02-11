@@ -26,36 +26,38 @@ class UsersActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_users)
 
-        userRecyclerView=findViewById(R.id.userRecyclerView)
-        userRecyclerView.layoutManager=LinearLayoutManager(this, RecyclerView.VERTICAL ,false)
+        userRecyclerView = findViewById(R.id.userRecyclerView)
+        userRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
-        var userList=ArrayList<User>()
+        var userList = ArrayList<User>()
 
-        var firebase:FirebaseUser= FirebaseAuth.getInstance().currentUser!!
-        var databaseReference:DatabaseReference = FirebaseDatabase.getInstance().getReference("users")
+        var firebase: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
+        var databaseReference: DatabaseReference =
+            FirebaseDatabase.getInstance().getReference("users")
 
-        databaseReference.addValueEventListener(object :ValueEventListener{
+        databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 userList.clear()
-                for (dataSnapShot:DataSnapshot in snapshot.children){
-                    val user: User? =dataSnapShot.getValue(User::class.java)
-                    if (user!!.userId != firebase.uid){
+                for (dataSnapShot: DataSnapshot in snapshot.children) {
+                    val user: User? = dataSnapShot.getValue(User::class.java)
+                    if (user!!.userId != firebase.uid) {
                         userList.add(user)
                     }
                 }
-                val userAdapter=UserAdapter(this@UsersActivity,userList)
-                userRecyclerView.adapter=userAdapter
+                val userAdapter = UserAdapter(this@UsersActivity, userList)
+                userRecyclerView.adapter = userAdapter
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@UsersActivity,"ERROR",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@UsersActivity, "ERROR", Toast.LENGTH_SHORT).show()
             }
 
         })
 
     }
-    fun openProfile(view: View){
-        val intent=Intent(this,ProfileActivity::class.java)
+
+    fun openProfile(view: View) {
+        val intent = Intent(this, ProfileActivity::class.java)
         startActivity(intent)
     }
 }
