@@ -29,19 +29,17 @@ class UsersActivity : AppCompatActivity() {
         userRecyclerView = findViewById(R.id.userRecyclerView)
         userRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
-        var userList = ArrayList<User>()
-
-        var firebase: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
-        var databaseReference: DatabaseReference =
-            FirebaseDatabase.getInstance().getReference("users")
+        val userList = ArrayList<User>()
+        val firebase: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
+        val databaseReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("users")
 
         databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 userList.clear()
                 for (dataSnapShot: DataSnapshot in snapshot.children) {
                     val user: User? = dataSnapShot.getValue(User::class.java)
-                    if (user!!.userId != firebase.uid) {
-                        userList.add(user)
+                    if (user?.userId != firebase.uid) {
+                        user?.let { userList.add(it) }
                     }
                 }
                 val userAdapter = UserAdapter(this@UsersActivity, userList)
@@ -51,9 +49,7 @@ class UsersActivity : AppCompatActivity() {
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(this@UsersActivity, "ERROR", Toast.LENGTH_SHORT).show()
             }
-
         })
-
     }
 
     fun openProfile(view: View) {

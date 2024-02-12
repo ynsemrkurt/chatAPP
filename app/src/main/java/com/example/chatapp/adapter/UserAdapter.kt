@@ -1,5 +1,6 @@
 package com.example.chatapp.adapter
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
@@ -12,16 +13,13 @@ import com.bumptech.glide.Glide
 import com.example.chatapp.R
 import com.example.chatapp.activity.ChatActivity
 import com.example.chatapp.model.User
-import com.google.firebase.database.core.Context
 import de.hdodenhof.circleimageview.CircleImageView
 
-class UserAdapter(private val context: android.content.Context,private val userList: ArrayList<User>) :
-    RecyclerView.Adapter<UserAdapter.ViewHolder>(){
-
-
+class UserAdapter(private val context: Context, private val userList: ArrayList<User>) :
+    RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view=LayoutInflater.from(parent.context).inflate(R.layout.user_item,parent,false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.user_item, parent, false)
         return ViewHolder(view)
     }
 
@@ -30,23 +28,22 @@ class UserAdapter(private val context: android.content.Context,private val userL
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val user=userList[position]
-        holder.textUserName.text=user.userName
-        Glide.with(context).load(Uri.parse(user.pimage)).placeholder(R.drawable.profile_image).into(holder.userImage)
+        val user = userList[position]
+        holder.textUserName.text = user.userName
+        Glide.with(context).load(Uri.parse(user.pimage)).placeholder(R.drawable.profile_image)
+            .into(holder.userImage)
 
-        holder.userLayout.setOnClickListener{
-            val intent=Intent(context,ChatActivity::class.java)
-            intent.putExtra("userId",user.userId)
+        holder.userLayout.setOnClickListener {
+            val intent = Intent(context, ChatActivity::class.java)
+            intent.putExtra("userId", user.userId)
             context.startActivity(intent)
         }
     }
 
-    class ViewHolder(view:View): RecyclerView.ViewHolder(view){
-        val textUserName:TextView=view.findViewById(R.id.userName)
-        val userImage:CircleImageView=view.findViewById(R.id.userProfileImage)
-        val textMessage:TextView=view.findViewById(R.id.userMessage)
-        val userLayout:LinearLayout=view.findViewById(R.id.userLayout)
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val textUserName: TextView = view.findViewById(R.id.userName)
+        val userImage: CircleImageView = view.findViewById(R.id.userProfileImage)
+        val textMessage: TextView = view.findViewById(R.id.userMessage)
+        val userLayout: LinearLayout = view.findViewById(R.id.userLayout)
     }
 }
-
-

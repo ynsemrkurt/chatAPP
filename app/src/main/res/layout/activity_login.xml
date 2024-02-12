@@ -89,18 +89,17 @@
         android:onClick="userLogin"
         android:text="@string/login"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/buttonAddFriends"
+        app:layout_constraintBottom_toTopOf="@+id/buttonSingUp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/buttonAddFriends"
+        android:id="@+id/buttonSingUp"
         android:layout_width="318dp"
         android:layout_height="55dp"
         android:layout_marginBottom="24dp"
         android:background="@drawable/button_background"
-        android:onClick="goSingUp"
         android:text="@string/sing_up"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"

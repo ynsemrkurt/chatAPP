@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@drawable/peakpx"
     android:orientation="vertical"
     tools:context=".activity.UsersActivity">
 
@@ -22,7 +22,7 @@
             android:textColor="@color/white"
             android:fontFamily="@font/montserrat_medium"
             android:text="@string/messages"
-            android:textSize="30sp"
+            android:textSize="25sp"
             tools:ignore="RtlSymmetry" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -40,10 +40,15 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/black"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/userRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white" />
+        android:background="@color/transparent" />
 
 </LinearLayout>

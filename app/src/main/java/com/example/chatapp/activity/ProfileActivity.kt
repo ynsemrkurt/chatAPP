@@ -1,77 +1,64 @@
-@file:Suppress("DEPRECATION")
-
 package com.example.chatapp.activity
 
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.chatapp.R
 import com.example.chatapp.model.User
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.storage
 import de.hdodenhof.circleimageview.CircleImageView
 import java.io.ByteArrayOutputStream
 import java.io.IOException
-import java.util.UUID
 
 class ProfileActivity : AppCompatActivity() {
 
     private lateinit var firebaseUser: FirebaseUser
     private lateinit var databaseReference: DatabaseReference
 
-    private var filePath:Uri?=null
-    private var request:Int=2020
+    private var filePath: Uri? = null
+    private var request: Int = 2020
 
-    private lateinit var storage:FirebaseStorage
-    private lateinit var strgRef:StorageReference
+    private lateinit var storage: FirebaseStorage
+    private lateinit var strgRef: StorageReference
 
-    private var imageUrl:String=""
+    private var imageUrl: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
-        firebaseUser= FirebaseAuth.getInstance().currentUser!!
-        databaseReference=FirebaseDatabase.getInstance().getReference("users").child(firebaseUser.uid)
+        firebaseUser = FirebaseAuth.getInstance().currentUser!!
+        databaseReference = FirebaseDatabase.getInstance().getReference("users").child(firebaseUser.uid)
 
-        storage=Firebase.storage
-        strgRef=storage.reference
+        storage = Firebase.storage
+        strgRef = storage.reference
 
-        databaseReference.addValueEventListener(object :ValueEventListener{
+        databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val user = snapshot.getValue(User::class.java)
                 if (user?.userId == firebaseUser.uid) {
                     if (user.pimage.isEmpty()) {
                         findViewById<CircleImageView>(R.id.imageProfile).setImageResource(R.drawable.profile_image)
-                    }
-                    else {
+                    } else {
                         try {
                             val imageUri = Uri.parse(user.pimage)
                             Glide.with(this@ProfileActivity).load(imageUri).placeholder(R.drawable.profile_image)
                                 .into(findViewById<CircleImageView>(R.id.imageProfile))
-                            imageUrl=user.pimage
+                            imageUrl = user.pimage
                         } catch (e: Exception) {
                             findViewById<CircleImageView>(R.id.imageProfile).setImageResource(R.drawable.login_image)
                         }
@@ -81,21 +68,19 @@ class ProfileActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@ProfileActivity,"ERROR",Toast.LENGTH_SHORT).show()
+                showToast("ERROR")
             }
         })
-
     }
 
-    fun openImageFolder(view: View){
-        val intent=Intent()
-        intent.type="image/*"
-        intent.action=Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent,"Select Profile Image"),request)
+    fun openImageFolder(view: View) {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(Intent.createChooser(intent, "Select Profile Image"), request)
     }
 
 
-    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == request && resultCode == RESULT_OK && data != null && data.data != null) {
@@ -103,10 +88,11 @@ class ProfileActivity : AppCompatActivity() {
             try {
                 showToast("Image is uploading...")
 
-                val originalBitmap: Bitmap = MediaStore.Images.Media.getBitmap(contentResolver, filePath)
-                val imageStream=ByteArrayOutputStream()
-                originalBitmap.compress(Bitmap.CompressFormat.JPEG,18,imageStream)
-                val imageArray=imageStream.toByteArray()
+                val originalBitmap: Bitmap =
+                    MediaStore.Images.Media.getBitmap(contentResolver, filePath)
+                val imageStream = ByteArrayOutputStream()
+                originalBitmap.compress(Bitmap.CompressFormat.JPEG, 18, imageStream)
+                val imageArray = imageStream.toByteArray()
 
                 val ref: StorageReference = strgRef.child("image/" + firebaseUser.uid)
                 ref.putBytes(imageArray)
@@ -126,7 +112,7 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
-    fun uploadData(view: View){
+    fun uploadData(view: View) {
         if (findViewById<EditText>(R.id.editTextUserName).text.toString().isNotEmpty()) {
             val user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
             val userId: String = user!!.uid
@@ -153,25 +139,20 @@ class ProfileActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    fun userLogout(view: View){
-        val alertDialogBuilder=AlertDialog.Builder(this)
+    fun userLogout(view: View) {
+        val alertDialogBuilder = AlertDialog.Builder(this)
         alertDialogBuilder.setTitle("Logout")
         alertDialogBuilder.setMessage("Are you sure you want to logout?")
-        alertDialogBuilder.setPositiveButton("Logout"){_,_->
+        alertDialogBuilder.setPositiveButton("Logout") { _, _ ->
             val auth = FirebaseAuth.getInstance()
             auth.signOut()
-            val intent=Intent(this,LoginActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             showToast("Has been logged out.")
         }
-        alertDialogBuilder.setNegativeButton("Cancel"){_,_->
+        alertDialogBuilder.setNegativeButton("Cancel") { _, _ -> }
 
-        }
-
-        val alertDialog=alertDialogBuilder.create()
+        val alertDialog = alertDialogBuilder.create()
         alertDialog.show()
-
     }
-
 }
-
