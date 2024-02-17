@@ -43,6 +43,7 @@
 
     </LinearLayout>
 
+
     <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageProfile"
             android:layout_width="250dp"
@@ -51,7 +52,12 @@
             android:layout_marginTop="20dp"
             android:src="@drawable/profile_image"
             app:civ_border_color="@color/white"
-            app:civ_border_width="3sp" />
+            app:civ_border_width="3sp" >
+
+
+    </de.hdodenhof.circleimageview.CircleImageView>
+
+
 
     <androidx.cardview.widget.CardView
         android:layout_width="50dp"
@@ -97,19 +103,40 @@
             android:importantForAutofill="no"
             tools:ignore="LabelFor" />
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginTop="50dp">
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:trackThickness="5dp"
+            app:trackColor="#57FFFFFF"
+            app:indicatorColor="@color/appBlue"
+            android:id="@+id/circularProgress"
+            android:indeterminate="true" />
+
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center">
+        android:gravity="center|bottom"
+        android:orientation="vertical">
+
+
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buttonSave"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginBottom="10dp"
             android:background="@drawable/button_background"
             android:text="@string/save"
+            android:layout_marginBottom="10dp"
             android:textColor="@color/white"
             android:textSize="16sp" />
 

@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.chatapp.R
 import com.example.chatapp.model.User
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -45,6 +46,8 @@ class ProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
+
+        findViewById<CircularProgressIndicator>(R.id.circularProgress).hide()
 
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
         databaseReference =
@@ -150,13 +153,17 @@ class ProfileActivity : AppCompatActivity() {
                 originalBitmap.compress(Bitmap.CompressFormat.JPEG, 18, imageStream)
                 val imageArray = imageStream.toByteArray()
 
+                findViewById<CircularProgressIndicator>(R.id.circularProgress).show()
+
                 val ref: StorageReference = strgRef.child("image/" + firebaseUser.uid)
                 ref.putBytes(imageArray)
                     .addOnSuccessListener {
                         showToast("Uploaded image!")
+                        findViewById<CircularProgressIndicator>(R.id.circularProgress).hide()
                     }
                     .addOnFailureListener {
                         showToast("Failed, please try again!")
+                        findViewById<CircularProgressIndicator>(R.id.circularProgress).hide()
                     }
                 ref.downloadUrl.addOnSuccessListener { uri ->
                     imageUrl = uri.toString()
