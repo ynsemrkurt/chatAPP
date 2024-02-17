@@ -5,9 +5,12 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.view.View
+import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
@@ -37,15 +40,23 @@ class ProfileActivity : AppCompatActivity() {
 
     private var imageUrl: String = ""
 
+    private lateinit var getContent: ActivityResultLauncher<Intent>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
-        databaseReference = FirebaseDatabase.getInstance().getReference("users").child(firebaseUser.uid)
+        databaseReference =
+            FirebaseDatabase.getInstance().getReference("users").child(firebaseUser.uid)
 
         storage = Firebase.storage
         strgRef = storage.reference
+
+        getContent =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                onActivityResult(request, result.resultCode, result.data)
+            }
 
         databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -56,7 +67,8 @@ class ProfileActivity : AppCompatActivity() {
                     } else {
                         try {
                             val imageUri = Uri.parse(user.pimage)
-                            Glide.with(this@ProfileActivity).load(imageUri).placeholder(R.drawable.profile_image)
+                            Glide.with(this@ProfileActivity).load(imageUri)
+                                .placeholder(R.drawable.profile_image)
                                 .into(findViewById<CircleImageView>(R.id.imageProfile))
                             imageUrl = user.pimage
                         } catch (e: Exception) {
@@ -71,15 +83,59 @@ class ProfileActivity : AppCompatActivity() {
                 showToast("ERROR")
             }
         })
-    }
 
-    fun openImageFolder(view: View) {
-        val intent = Intent()
-        intent.type = "image/*"
-        intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent, "Select Profile Image"), request)
-    }
 
+        findViewById<ImageButton>(R.id.buttonLogout).setOnClickListener {
+            val alertDialogBuilder = AlertDialog.Builder(this)
+            alertDialogBuilder.setTitle("Logout")
+            alertDialogBuilder.setMessage("Are you sure you want to logout?")
+            alertDialogBuilder.setPositiveButton("Logout") { _, _ ->
+                val auth = FirebaseAuth.getInstance()
+                auth.signOut()
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                showToast("Has been logged out.")
+            }
+            alertDialogBuilder.setNegativeButton("Cancel") { _, _ -> }
+
+            val alertDialog = alertDialogBuilder.create()
+            alertDialog.show()
+        }
+
+
+        findViewById<ImageButton>(R.id.changeImage).setOnClickListener {
+            val intent = Intent()
+            intent.type = "image/*"
+            intent.action = Intent.ACTION_GET_CONTENT
+            getContent.launch(Intent.createChooser(intent, "Select Profile Image"))
+        }
+
+
+
+        findViewById<Button>(R.id.buttonSave).setOnClickListener {
+            if (findViewById<EditText>(R.id.editTextUserName).text.toString().isNotEmpty()) {
+                val user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
+                val userId: String = user!!.uid
+
+                databaseReference =
+                    FirebaseDatabase.getInstance().getReference("users").child(userId)
+
+                val hashMap: HashMap<String, String> = HashMap()
+                hashMap["userId"] = userId
+                hashMap["userName"] = findViewById<EditText>(R.id.editTextUserName).text.toString()
+                hashMap["pimage"] = imageUrl
+                databaseReference.setValue(hashMap).addOnCompleteListener(this) {
+                    if (it.isSuccessful) {
+                        showToast("Registration Is Successful!")
+                    } else {
+                        showToast("Registration failed, please check the information!")
+                    }
+                }
+            } else {
+                showToast("User name cannot be empty!")
+            }
+        }
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -112,47 +168,7 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
-    fun uploadData(view: View) {
-        if (findViewById<EditText>(R.id.editTextUserName).text.toString().isNotEmpty()) {
-            val user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
-            val userId: String = user!!.uid
-
-            databaseReference = FirebaseDatabase.getInstance().getReference("users").child(userId)
-
-            val hashMap: HashMap<String, String> = HashMap()
-            hashMap["userId"] = userId
-            hashMap["userName"] = findViewById<EditText>(R.id.editTextUserName).text.toString()
-            hashMap["pimage"] = imageUrl
-            databaseReference.setValue(hashMap).addOnCompleteListener(this) {
-                if (it.isSuccessful) {
-                    showToast("Registration Is Successful!")
-                } else {
-                    showToast("Registration failed, please check the information!")
-                }
-            }
-        } else {
-            showToast("User name cannot be empty!")
-        }
-    }
-
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
-
-    fun userLogout(view: View) {
-        val alertDialogBuilder = AlertDialog.Builder(this)
-        alertDialogBuilder.setTitle("Logout")
-        alertDialogBuilder.setMessage("Are you sure you want to logout?")
-        alertDialogBuilder.setPositiveButton("Logout") { _, _ ->
-            val auth = FirebaseAuth.getInstance()
-            auth.signOut()
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            showToast("Has been logged out.")
-        }
-        alertDialogBuilder.setNegativeButton("Cancel") { _, _ -> }
-
-        val alertDialog = alertDialogBuilder.create()
-        alertDialog.show()
     }
 }

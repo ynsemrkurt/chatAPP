@@ -3,9 +3,9 @@ package com.example.chatapp.activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chatapp.R
@@ -33,46 +33,53 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this, SingUpActivity::class.java)
             startActivity(intent)
         }
-    }
 
-    fun hiddenPassword(view: View) {
-        val editTextPassword = findViewById<EditText>(R.id.editTextUserPassword)
-        val currentInputType = editTextPassword.inputType
 
-        if (currentInputType == InputType.TYPE_CLASS_TEXT) {
-            editTextPassword.inputType =
-                InputType.TYPE_TEXT_VARIATION_PASSWORD or InputType.TYPE_CLASS_TEXT
-        } else {
-            editTextPassword.inputType = InputType.TYPE_CLASS_TEXT
+
+        findViewById<Button>(R.id.buttonLogin).setOnClickListener {
+            val userEmail = findViewById<EditText>(R.id.editTextUserMail)
+            val userPassword = findViewById<EditText>(R.id.editTextUserPassword)
+
+            if (userEmail.text.toString().isEmpty() || userPassword.text.toString()
+                    .isEmpty()
+            ) {
+                Toast.makeText(this, "Please fill in all fields!", Toast.LENGTH_SHORT).show()
+            } else {
+                auth.signInWithEmailAndPassword(
+                    userEmail.text.toString(),
+                    userPassword.text.toString()
+                )
+                    .addOnCompleteListener(this) {
+                        if (it.isSuccessful) {
+                            Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
+                            userEmail.setText("")
+                            userPassword.setText("")
+                            val intent = Intent(this, UsersActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        } else {
+                            Toast.makeText(this, "Incorrect login information!", Toast.LENGTH_SHORT)
+                                .show()
+                            findViewById<EditText>(R.id.editTextUserPassword).setText("")
+                        }
+                    }
+            }
         }
 
-        editTextPassword.setSelection(editTextPassword.text.length)
-    }
 
-    fun userLogin(view: View) {
-        val userEmail = findViewById<EditText>(R.id.editTextUserMail)
-        val userPassword = findViewById<EditText>(R.id.editTextUserPassword)
 
-        if (userEmail.text.toString().isNullOrEmpty() || userPassword.text.toString()
-                .isNullOrEmpty()
-        ) {
-            Toast.makeText(this, "Please fill in all fields!", Toast.LENGTH_SHORT).show()
-        } else {
-            auth.signInWithEmailAndPassword(userEmail.text.toString(), userPassword.text.toString())
-                .addOnCompleteListener(this) {
-                    if (it.isSuccessful) {
-                        Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
-                        userEmail.setText("")
-                        userPassword.setText("")
-                        val intent = Intent(this, UsersActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    } else {
-                        Toast.makeText(this, "Incorrect login information!", Toast.LENGTH_SHORT)
-                            .show()
-                        findViewById<EditText>(R.id.editTextUserPassword).setText("")
-                    }
-                }
+        findViewById<ImageButton>(R.id.hiddenButton).setOnClickListener {
+            val editTextPassword = findViewById<EditText>(R.id.editTextUserPassword)
+            val currentInputType = editTextPassword.inputType
+
+            if (currentInputType == InputType.TYPE_CLASS_TEXT) {
+                editTextPassword.inputType =
+                    InputType.TYPE_TEXT_VARIATION_PASSWORD or InputType.TYPE_CLASS_TEXT
+            } else {
+                editTextPassword.inputType = InputType.TYPE_CLASS_TEXT
+            }
+
+            editTextPassword.setSelection(editTextPassword.text.length)
         }
     }
 }

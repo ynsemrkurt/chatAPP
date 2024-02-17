@@ -3,7 +3,7 @@ package com.example.chatapp.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -50,10 +50,10 @@ class UsersActivity : AppCompatActivity() {
                 Toast.makeText(this@UsersActivity, "ERROR", Toast.LENGTH_SHORT).show()
             }
         })
-    }
 
-    fun openProfile(view: View) {
-        val intent = Intent(this, ProfileActivity::class.java)
-        startActivity(intent)
+        findViewById<Button>(R.id.buttonProfile).setOnClickListener{
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

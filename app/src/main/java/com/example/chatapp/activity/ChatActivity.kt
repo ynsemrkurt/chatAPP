@@ -31,7 +31,7 @@ class ChatActivity : AppCompatActivity() {
         recyclerViewMessages = findViewById(R.id.recyclerViewMessages)
         recyclerViewMessages.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
-        val intent = getIntent()
+        val intent = intent
         val friendUserId = intent.getStringExtra("userId").toString()
         reference = FirebaseDatabase.getInstance().getReference("users").child(friendUserId)
 
@@ -83,9 +83,7 @@ class ChatActivity : AppCompatActivity() {
                     if ((chat?.senderId == firebaseUser?.uid && chat?.recipientId == friendId) ||
                         (chat?.senderId == friendId && chat.recipientId == firebaseUser?.uid)
                     ) {
-                        if (chat != null) {
-                            chatList.add(chat)
-                        }
+                        chatList.add(chat)
                     }
                 }
                 val chatAdapter = MessageAdapter(this@ChatActivity, chatList)

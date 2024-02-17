@@ -55,7 +55,6 @@
         android:layout_height="55dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/button_background"
-        android:onClick="userSave"
         android:text="@string/sing_up"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"

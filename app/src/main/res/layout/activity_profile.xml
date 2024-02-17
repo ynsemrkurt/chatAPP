@@ -36,7 +36,6 @@
             android:layout_marginEnd="20dp"
             android:background="@drawable/logout_button_background"
             android:importantForAccessibility="no"
-            android:onClick="userLogout"
             android:padding="5dp"
             android:scaleType="centerInside"
             android:src="@drawable/power" />
@@ -68,10 +67,9 @@
             android:layout_height="30dp"
             android:layout_gravity="center"
             android:background="@color/white"
-            android:onClick="openImageFolder"
+            android:contentDescription="@string/change_profile_photo"
             android:scaleType="fitCenter"
-            android:src="@drawable/pen"
-            android:contentDescription="@string/change_profile_photo" />
+            android:src="@drawable/pen" />
 
     </androidx.cardview.widget.CardView>
 
@@ -111,7 +109,6 @@
             android:layout_gravity="center_horizontal|bottom"
             android:layout_marginBottom="10dp"
             android:background="@drawable/button_background"
-            android:onClick="uploadData"
             android:text="@string/save"
             android:textColor="@color/white"
             android:textSize="16sp" />
