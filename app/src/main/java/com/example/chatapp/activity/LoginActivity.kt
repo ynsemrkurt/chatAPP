@@ -1,7 +1,10 @@
 package com.example.chatapp.activity
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.InputType
 import android.widget.Button
 import android.widget.EditText
@@ -14,20 +17,9 @@ import com.google.firebase.auth.FirebaseAuth
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
-        auth = FirebaseAuth.getInstance()
-
-        auth.addAuthStateListener { firebaseAuth ->
-            if (firebaseAuth.currentUser != null) {
-                val intent = Intent(this, UsersActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
-        }
 
         findViewById<Button>(R.id.buttonSingUp).setOnClickListener {
             val intent = Intent(this, SingUpActivity::class.java)
