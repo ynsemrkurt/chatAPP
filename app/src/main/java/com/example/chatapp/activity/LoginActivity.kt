@@ -21,6 +21,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        auth = FirebaseAuth.getInstance()
+
         findViewById<Button>(R.id.buttonSingUp).setOnClickListener {
             val intent = Intent(this, SingUpActivity::class.java)
             startActivity(intent)
