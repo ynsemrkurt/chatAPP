@@ -36,8 +36,8 @@ class SingUpActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (userPassword.length < 6) {
-                showToast("The password should not be shorter than 6 digits!")
+            if (userPassword.length < 8) {
+                showToast("The password should not be shorter than 8 digits!")
                 return@setOnClickListener
             }
 

@@ -70,15 +70,15 @@
         android:background="@drawable/view_edit"
         android:ems="10"
         android:hint="@string/full_name"
+        android:importantForAutofill="no"
         android:inputType="textPersonName"
         android:paddingStart="20dp"
         app:layout_constraintBottom_toTopOf="@+id/editTextUserMail"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="0.471"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/view"
-        app:layout_constraintVertical_bias="1.0"
-        android:importantForAutofill="no" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <EditText
         android:id="@+id/editTextUserMail"
