@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/peakpx"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".activity.UsersActivity">
 
@@ -34,7 +34,7 @@
             android:background="@drawable/button_background"
             android:text="@string/my_profile"
             android:textColor="@color/white"
-            android:textSize="10sp"
+            android:textSize="9sp"
             tools:ignore="SmallSp" />
 
     </LinearLayout>
