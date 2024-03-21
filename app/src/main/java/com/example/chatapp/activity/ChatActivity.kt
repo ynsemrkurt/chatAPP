@@ -64,10 +64,11 @@ class ChatActivity : AppCompatActivity() {
 
                 reference!!.push().setValue(hashMap)
                 findViewById<EditText>(R.id.textMessage).setText("")
+                scrollToBottom()
             }
         }
-
         messageList(friendUserId)
+        scrollToBottom()
     }
 
     private fun messageList(friendId: String) {
@@ -88,10 +89,17 @@ class ChatActivity : AppCompatActivity() {
                 }
                 val chatAdapter = MessageAdapter(this@ChatActivity, chatList)
                 recyclerViewMessages.adapter = chatAdapter
+                scrollToBottom()
             }
 
             override fun onCancelled(error: DatabaseError) {
             }
         })
+    }
+
+    private fun scrollToBottom() {
+        recyclerViewMessages.post {
+            recyclerViewMessages.scrollToPosition(chatList.size - 1)
+        }
     }
 }
